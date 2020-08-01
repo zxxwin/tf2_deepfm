@@ -60,7 +60,7 @@ fst_order_dense_layer = Dense(1)(concat_dense_inputs)  # ?, 1
 sparse_1d_embed = []
 for feat in sparse_feats:
     ipt = Input(shape=(1, ))
-    voc_size = data[feat].nunique()
+    voc_size = total_data[feat].nunique()
     # 使用 l2 正则化防止过拟合
     reg = tf.keras.regularizers.l2(0.5)
     embed = Embedding(input_dim=voc_size, output_dim=1, embeddings_regularizer=reg)(ipt)
@@ -96,9 +96,9 @@ k = 8
 sparse_kd_embed = []
 for i, _input in enumerate(sparse_inputs):
     f = sparse_feats[i]
-    voc_size = data[f].nunique()
+    voc_size = total_data[f].nunique()
     reg = tf.keras.regularizers.l2(0.7)
-    _embed = Embedding(voc_size+1, k, embeddings_regularizer=reg)(_input)
+    _embed = Embedding(voc_size, k, embeddings_regularizer=reg)(_input)
     sparse_kd_embed.append(_embed)
 ```
 
